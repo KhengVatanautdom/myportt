@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta kh — វិក្កយបត្រ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap');
+
+  :root{
+    --paper:#FFFFFF;
+    --ink:#161616;
+    --ink-soft:#6B6B6B;
+    --rule:#E2E2E2;
+    --bg:#EDEDED;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    font-family:'Noto Sans Khmer', sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
+  }
+
+  .app{
+    width:100%;
+    max-width:1180px;
+    display:grid;
+    grid-template-columns:380px 1fr;
+    gap:32px;
+    align-items:start;
+  }
+
+  /* ---------- FORM PANEL ---------- */
+  .panel{
+    background:#FFFFFF;
+    border:1px solid var(--rule);
+    border-radius:10px;
+    padding:26px 24px;
+    position:sticky;
+    top:40px;
+    max-height:calc(100vh - 80px);
+    overflow-y:auto;
+  }
+
+  .panel h1{ font-size:19px; font-weight:700; margin:0 0 4px; }
+  .panel .sub{ font-size:12.5px; color:var(--ink-soft); margin:0 0 20px; line-height:1.6; }
+
+  .section-label{
+    font-size:12px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    font-weight:700;
+    margin:22px 0 10px;
+    padding-top:16px;
+    border-top:1px solid var(--rule);
+  }
+  .section-label:first-of-type{border-top:none; padding-top:0; margin-top:0;}
+
+  label{
+    display:block;
+    font-size:11px;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin:0 0 5px;
+  }
+
+  .field{margin-bottom:14px;}
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+
+  input{
+    width:100%;
+    font-family:'Noto Sans Khmer', sans-serif;
+    font-size:14px;
+    padding:9px 10px;
+    border:1px solid #DCDCDC;
+    border-radius:6px;
+    background:#FFFFFF;
+    color:var(--ink);
+    outline:none;
+  }
+  input:focus{border-color:var(--ink);}
+
+  .col-heads{
+    display:grid;
+    font-size:11px;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .col-heads .qty{text-align:center;}
+
+  .catalog-row{
+    display:grid;
+    grid-template-columns:1fr 70px 26px;
+    gap:6px;
+    margin-bottom:8px;
+    align-items:center;
+  }
+  .catalog-row input{padding:8px 8px; font-size:13px;}
+
+  .search-wrap{position:relative;}
+  .catalog-dropdown{
+    position:absolute;
+    top:100%; left:0; right:0;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:0 0 8px 8px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    max-height:180px;
+    overflow-y:auto;
+    z-index:20;
+    display:none;
+  }
+  .catalog-dropdown.open{display:block;}
+  .catalog-option{
+    display:flex; justify-content:space-between;
+    padding:9px 12px; font-size:13px; cursor:pointer;
+    border-bottom:1px solid #F0F0F0;
+  }
+  .catalog-option:last-child{border-bottom:none;}
+  .catalog-option:hover{background:#F5F5F5;}
+  .catalog-option .op-price{color:var(--ink-soft); font-size:12.5px;}
+  .catalog-empty-msg{padding:9px 12px; font-size:12.5px; color:var(--ink-soft); font-style:italic;}
+
+  .add-to-receipt-row{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    gap:10px;
+    margin-bottom:10px;
+  }
+
+  .item-row{
+    display:grid;
+    grid-template-columns:1fr 46px 78px 26px;
+    gap:6px;
+    margin-bottom:8px;
+    align-items:center;
+  }
+  .item-row input{padding:8px 8px; font-size:13px;}
+  .item-row .qty{text-align:center;}
+
+  .del-btn{
+    width:26px; height:26px;
+    border:1px solid #DCDCDC;
+    background:#fff;
+    border-radius:6px;
+    color:#B23B3B;
+    font-size:15px;
+    line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .del-btn:hover{background:#FBEAEA; border-color:#E3B5B5;}
+
+  .add-row-btn{
+    width:100%;
+    padding:9px;
+    border:1px dashed #C7C7C7;
+    background:#FAFAFA;
+    border-radius:6px;
+    font-size:13px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    margin-top:2px;
+  }
+  .add-row-btn:hover{border-color:var(--ink); color:var(--ink);}
+
+  .actions{ margin-top:24px; display:flex; flex-direction:column; gap:8px; }
+  button.act{
+    font-family:'Noto Sans Khmer', sans-serif;
+    font-size:13.5px; font-weight:600;
+    padding:11px 14px; border-radius:6px;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-print{background:var(--ink); color:#fff;}
+  .btn-print:hover{background:#333;}
+  .btn-image{background:#fff; color:var(--ink); border-color:var(--ink);}
+  .btn-image:hover{background:#F5F5F5;}
+  .btn-save{background:#2E6B44; color:#fff;}
+  .btn-save:hover{background:#255939;}
+  .btn-new{background:transparent; color:var(--ink-soft); border-color:var(--rule);}
+  .btn-new:hover{border-color:var(--ink-soft); color:var(--ink);}
+
+  .hint{font-size:11.5px; color:var(--ink-soft); margin-top:14px; line-height:1.6;}
+
+  .history{margin-top:10px;}
+  .history-item{
+    display:flex; justify-content:space-between; align-items:center; gap:8px;
+    padding:9px 10px; border:1px solid var(--rule); border-radius:6px;
+    margin-bottom:6px; font-size:12.5px;
+  }
+  .history-item .meta{color:var(--ink-soft); font-size:11px;}
+  .history-item .btns{display:flex; gap:6px;}
+  .history-item button{
+    font-size:11px; padding:5px 8px; border-radius:5px;
+    border:1px solid #DCDCDC; background:#fff; cursor:pointer;
+    font-family:'Noto Sans Khmer', sans-serif;
+  }
+  .history-item button.load:hover{border-color:var(--ink);}
+  .history-item button.del:hover{border-color:#E3B5B5; color:#B23B3B;}
+  .history-empty{font-size:12px; color:var(--ink-soft); font-style:italic;}
+
+  /* ---------- RECEIPT PREVIEW ---------- */
+  .receipt-stage{display:flex; justify-content:center;}
+
+  .receipt{
+    width:400px;
+    background:var(--paper);
+    font-family:'Noto Sans Khmer', sans-serif;
+    color:var(--ink);
+    padding:28px 24px 30px;
+    box-shadow:0 1px 2px rgba(0,0,0,.06), 0 18px 40px rgba(0,0,0,.12);
+    position:relative;
+  }
+
+  .r-title{
+    text-align:center;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 18px;
+  }
+
+  .r-table-head{
+    display:grid;
+    grid-template-columns:22px 1fr 92px 92px;
+    gap:8px;
+    font-weight:700;
+    font-size:14px;
+    margin-bottom:8px;
+  }
+  .r-table-head .c-price, .r-table-head .c-total{text-align:right;}
+
+  .r-dots{ border-top:2px dashed #8C8C8C; margin:6px 0 10px; }
+
+  .r-item{
+    display:grid;
+    grid-template-columns:22px 1fr 92px 92px;
+    gap:8px;
+    font-size:15px;
+    font-weight:600;
+    margin-bottom:9px;
+    align-items:start;
+  }
+  .r-item .c-num{color:var(--ink);}
+  .r-item .c-name{line-height:1.35;}
+  .r-item .c-price{text-align:right; white-space:nowrap;}
+  .r-item .c-total{text-align:right; white-space:nowrap;}
+
+  .r-empty{ font-size:13px; color:var(--ink-soft); font-style:italic; text-align:center; padding:10px 0; }
+
+  .r-summary-row{
+    display:flex; justify-content:flex-end; align-items:baseline;
+    gap:14px; font-size:16px; font-weight:600; margin:6px 0;
+  }
+  .r-summary-row .lbl{ text-align:right; }
+  .r-summary-row .val{ min-width:110px; text-align:right; }
+
+  .r-grand-row{
+    display:flex; justify-content:flex-end; align-items:baseline;
+    gap:14px; font-size:19px; font-weight:700; margin:4px 0 0;
+  }
+  .r-grand-row .val{ min-width:110px; text-align:right; }
+
+  .r-usd-row{
+    display:flex; justify-content:flex-end;
+    font-size:19px; font-weight:700; margin-top:2px;
+  }
+
+  .r-thanks{ text-align:center; font-size:14px; font-weight:600; margin-top:22px; }
+  .r-thanks-sub{ text-align:center; font-size:13px; color:var(--ink-soft); margin-top:2px; }
+
+  @media print{
+    body{background:#fff; padding:0; display:block;}
+    .panel{display:none;}
+    .app{grid-template-columns:1fr; max-width:none; gap:0;}
+    .receipt{box-shadow:none; margin:0 auto;}
+  }
+
+  @media (max-width:900px){
+    .app{grid-template-columns:1fr;}
+    .panel{position:static; max-height:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- FORM PANEL -->
+  <div class="panel">
+    <h1>បង្កើតវិក្កយបត្រ</h1>
+    <p class="sub">បំពេញព័ត៌មានខាងក្រោម វិក្កយបត្រនឹងធ្វើបច្ចុប្បន្នភាពភ្លាមៗ។ ចុច «រក្សាទុកវិក្កយបត្រ» ដើម្បីរក្សាទុកជាអចិន្ត្រៃយ៍។</p>
+
+    <div class="section-label">ចំណងជើងហាង</div>
+    <div class="field">
+      <label for="storeName">ឈ្មោះហាង</label>
+      <input id="storeName" type="text" placeholder="Meta kh" value="Meta kh">
+    </div>
+    
+
+    <div class="section-label">បញ្ជីទំនិញដែលបានរក្សាទុក</div>
+    <p class="hint" style="margin-top:-4px;">រក្សាទុកទំនិញរបស់អ្នកនៅទីនេះម្តង រួចស្វែងរកវានៅខាងក្រោមដើម្បីបន្ថែមទៅវិក្កយបត្រ។</p>
+    <div class="col-heads" style="grid-template-columns:1fr 70px 26px;">
+      <span>ឈ្មោះទំនិញ</span><span>តម្លៃ</span><span></span>
+    </div>
+    <div id="catalogRows"></div>
+    <div class="catalog-row">
+      <input type="text" id="newCatalogName" placeholder="ឈ្មោះទំនិញថ្មី">
+      <input type="text" id="newCatalogPrice" placeholder="តម្លៃ">
+      <button class="del-btn" title="រក្សាទុកទៅបញ្ជី" onclick="addCatalogItem()" style="color:#2E6B44;">+</button>
+    </div>
+
+    <div class="section-label">បន្ថែមទំនិញទៅវិក្កយបត្រ</div>
+    <div class="field search-wrap">
+      <label for="catalogSearch">ស្វែងរកទំនិញ</label>
+      <input type="text" id="catalogSearch" placeholder="វាយឈ្មោះទំនិញ…" autocomplete="off" oninput="filterCatalog()" onfocus="filterCatalog()">
+      <div class="catalog-dropdown" id="catalogDropdown"></div>
+    </div>
+    <div class="add-to-receipt-row">
+      <div class="field" style="margin-bottom:0;">
+        <label for="addQty">ចំនួន</label>
+        <input type="text" id="addQty" value="1">
+      </div>
+      <div class="field" style="margin-bottom:0;">
+        <label for="addPrice">តម្លៃឯកតា</label>
+        <input type="text" id="addPrice" placeholder="0">
+      </div>
+    </div>
+    <button class="add-row-btn" onclick="addSelectedToReceipt()">+ បន្ថែមទៅវិក្កយបត្រ</button>
+
+    <div class="section-label">ទំនិញនៅលើវិក្កយបត្រ</div>
+    <div class="col-heads" style="grid-template-columns:1fr 46px 78px 26px;">
+      <span>ឈ្មោះទំនិញ</span><span class="qty">ចំនួន</span><span>តម្លៃ</span><span></span>
+    </div>
+    <div id="itemRows"></div>
+
+    <div class="section-label">បញ្ចុះតម្លៃ</div>
+    <div class="field">
+      <label for="discountPct">ភាគរយបញ្ចុះតម្លៃ (%)</label>
+      <input id="discountPct" type="text" value="0" placeholder="e.g. 10">
+    </div>
+
+    <div class="section-label">អត្រាប្តូរប្រាក់ដុល្លារ</div>
+    <div class="field">
+      <label for="fxRate">1 ដុល្លារ = ប៉ុន្មានរៀល</label>
+      <input id="fxRate" type="text" value="4000">
+    </div>
+
+    <div class="section-label">សារបិទបញ្ចប់</div>
+    <div class="field">
+      <label for="thanksLine1">ជួរទី ១</label>
+      <input id="thanksLine1" type="text" value="សូមអរគុណ!">
+    </div>
+    <div class="field">
+      <label for="thanksLine2">ជួរទី ២</label>
+      <input id="thanksLine2" type="text" value="សូមអញ្ជើញមកម្តងទៀត!">
+    </div>
+
+    <div class="actions">
+      <button class="act btn-save" onclick="saveReceipt()">រក្សាទុកវិក្កយបត្រ</button>
+      <button class="act btn-print" onclick="window.print()">រក្សាទុកជា PDF / បោះពុម្ព</button>
+      <button class="act btn-image" onclick="saveAsImage()">រក្សាទុកជារូបភាព</button>
+      <button class="act btn-new" onclick="newReceipt()">វិក្កយបត្រថ្មី</button>
+    </div>
+
+    <p class="hint">«រក្សាទុកវិក្កយបត្រ» នឹងរក្សាទុកនៅក្នុងកម្មវិធីរុករកនេះជាអចិន្ត្រៃយ៍ សូម្បីតែបិទផ្ទាំងក៏ដោយ។ វានឹងមិនបង្ហាញនៅលើឧបករណ៍ ឬកម្មវិធីរុករកផ្សេងទៀតទេ។</p>
+
+    <div class="section-label">វិក្កយបត្រដែលបានរក្សាទុក</div>
+    <div class="history" id="historyList"></div>
+  </div>
+
+  <!-- RECEIPT PREVIEW -->
+  <div class="receipt-stage">
+    <div class="receipt" id="receiptNode">
+      <p class="r-title" id="rStore">Meta kh</p>
+
+      <div class="r-table-head">
+        <span>#</span><span>ឈ្មោះទំនិញ</span><span class="c-price">តម្លៃ</span><span class="c-total">សរុប</span>
+      </div>
+      <div class="r-dots"></div>
+
+      <div id="rItems"></div>
+
+      <div class="r-dots"></div>
+
+      <div class="r-summary-row"><span class="lbl">ចំនួនសរុប</span><span class="val" id="rCount">0</span></div>
+      <div class="r-summary-row"><span class="lbl">សរុបរង</span><span class="val" id="rSubtotal">៛ 0</span></div>
+      <div class="r-summary-row" id="rDiscountRow" style="display:none;"><span class="lbl">បញ្ចុះតម្លៃ</span><span class="val" id="rDiscount">-៛ 0</span></div>
+
+      <div class="r-dots"></div>
+
+      <div class="r-grand-row"><span class="lbl">តម្លៃបូកសរុបទាំងអស់</span><span class="val" id="rGrandRiel">៛ 0</span></div>
+      <div class="r-usd-row"><span id="rGrandUsd">$ 0.00</span></div>
+
+      <p class="r-thanks" id="rThanks1">សូមអរគុណ!</p>
+      <p class="r-thanks-sub" id="rThanks2">សូមអញ្ជើញមកម្តងទៀត!</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let itemIdCounter = 0;
+  let items = [];
+
+  function addItem(data){
+    const id = 'it' + (itemIdCounter++);
+    const item = data || {name:'', qty:1, price:0};
+    items.push({id, ...item});
+    renderItemRows();
+    render();
+  }
+
+  function removeItem(id){
+    items = items.filter(i => i.id !== id);
+    renderItemRows();
+    render();
+  }
+
+  function renderItemRows(){
+    const wrap = document.getElementById('itemRows');
+    wrap.innerHTML = '';
+    items.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.innerHTML = `
+        <input type="text" value="${escapeAttr(item.name)}" placeholder="ឈ្មោះទំនិញ" data-id="${item.id}" data-field="name">
+        <input type="text" class="qty" value="${item.qty}" placeholder="1" data-id="${item.id}" data-field="qty">
+        <input type="text" value="${item.price}" placeholder="0" data-id="${item.id}" data-field="price">
+        <button class="del-btn" title="ដកចេញ" onclick="removeItem('${item.id}')">&times;</button>
+      `;
+      wrap.appendChild(row);
+    });
+    wrap.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('input', e => {
+        const id = e.target.dataset.id;
+        const field = e.target.dataset.field;
+        const it = items.find(i => i.id === id);
+        if(!it) return;
+        it[field] = e.target.value;
+        render();
+      });
+    });
+  }
+
+  function escapeAttr(str){ return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+  function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function riel(n){
+    if(isNaN(n)) n = 0;
+    return '៛ ' + Math.round(n).toLocaleString('en-US');
+  }
+  function usd(n){
+    if(isNaN(n)) n = 0;
+    return '$ ' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+  function plainNum(n){
+    if(isNaN(n)) n = 0;
+    return Math.round(n).toLocaleString('en-US');
+  }
+
+  function render(){
+    document.getElementById('rStore').textContent = document.getElementById('storeName').value || 'Meta kh';
+
+    const rItems = document.getElementById('rItems');
+    rItems.innerHTML = '';
+    let subtotal = 0;
+    let totalQty = 0;
+
+    if(items.length === 0){
+      rItems.innerHTML = '<p class="r-empty">មិនទាន់មានទំនិញនៅឡើយ — បន្ថែមនៅខាងឆ្វេង</p>';
+    } else {
+      items.forEach((it, idx) => {
+        const qty = parseFloat(it.qty) || 0;
+        const price = parseFloat(it.price) || 0;
+        const lineTotal = qty * price;
+        subtotal += lineTotal;
+        totalQty += qty;
+        const row = document.createElement('div');
+        row.className = 'r-item';
+        row.innerHTML = `
+          <span class="c-num">${idx+1}</span>
+          <span class="c-name">${escapeHtml(it.name || 'ទំនិញ')}</span>
+          <span class="c-price">${plainNum(qty)}x${plainNum(price)}</span>
+          <span class="c-total">${riel(lineTotal)}</span>
+        `;
+        rItems.appendChild(row);
+      });
+    }
+
+    document.getElementById('rCount').textContent = plainNum(totalQty);
+    document.getElementById('rSubtotal').textContent = riel(subtotal);
+
+    const discountPct = Math.max(0, parseFloat(document.getElementById('discountPct').value) || 0);
+    const discountAmt = subtotal * (discountPct / 100);
+    const grandTotal = subtotal - discountAmt;
+
+    const discountRow = document.getElementById('rDiscountRow');
+    if(discountPct > 0){
+      discountRow.style.display = 'flex';
+      document.getElementById('rDiscount').textContent = '-' + riel(discountAmt) + ' (' + discountPct + '%)';
+    } else {
+      discountRow.style.display = 'none';
+    }
+
+    document.getElementById('rGrandRiel').textContent = riel(grandTotal);
+
+    const fx = parseFloat(document.getElementById('fxRate').value) || 4000;
+    document.getElementById('rGrandUsd').textContent = usd(grandTotal / fx);
+
+    document.getElementById('rThanks1').textContent = document.getElementById('thanksLine1').value;
+    document.getElementById('rThanks2').textContent = document.getElementById('thanksLine2').value;
+  }
+
+  ['storeName','fxRate','discountPct','thanksLine1','thanksLine2'].forEach(id => {
+    document.getElementById(id).addEventListener('input', render);
+  });
+
+  function getCurrentState(){
+    return {
+      storeName: document.getElementById('storeName').value,
+      fxRate: document.getElementById('fxRate').value,
+      discountPct: document.getElementById('discountPct').value,
+      thanksLine1: document.getElementById('thanksLine1').value,
+      thanksLine2: document.getElementById('thanksLine2').value,
+      items: items.map(({name, qty, price}) => ({name, qty, price}))
+    };
+  }
+
+  function applyState(state){
+    document.getElementById('storeName').value = state.storeName || 'Meta kh';
+    document.getElementById('fxRate').value = state.fxRate || '4000';
+    document.getElementById('discountPct').value = state.discountPct || '0';
+    document.getElementById('thanksLine1').value = state.thanksLine1 || 'សូមអរគុណ!';
+    document.getElementById('thanksLine2').value = state.thanksLine2 || 'សូមអញ្ជើញមកម្តងទៀត!';
+    items = [];
+    (state.items || []).forEach(it => addItem(it));
+    if((state.items || []).length === 0) renderItemRows();
+    render();
+  }
+
+  const CATALOG_KEY = 'meta_kh_catalog';
+  const HISTORY_KEY = 'meta_kh_saved_receipts';
+
+  function getCatalog(){
+    try{ return JSON.parse(localStorage.getItem(CATALOG_KEY) || '[]'); } catch(e){ return []; }
+  }
+  function setCatalog(list){ localStorage.setItem(CATALOG_KEY, JSON.stringify(list)); }
+
+  function seedCatalogIfEmpty(){
+    if(getCatalog().length === 0){
+      setCatalog([
+        {id:'c1', name:'ក្តាមតូច១៦ដើម(kH) - 1kg', price:15000},
+        {id:'c2', name:'3ពណ៌1kg sky - 1kg', price:10000},
+        {id:'c3', name:'ហតដកមាន់20ដើមវ៉ាត់ - 1.0kg', price:10500}
+      ]);
+    }
+  }
+
+  function addCatalogItem(){
+    const nameEl = document.getElementById('newCatalogName');
+    const priceEl = document.getElementById('newCatalogPrice');
+    const name = nameEl.value.trim();
+    const price = parseFloat(priceEl.value) || 0;
+    if(!name){ nameEl.focus(); return; }
+    const list = getCatalog();
+    list.push({id:'c' + Date.now(), name, price});
+    setCatalog(list);
+    nameEl.value = '';
+    priceEl.value = '';
+    renderCatalogRows();
+  }
+
+  function deleteCatalogItem(id){
+    setCatalog(getCatalog().filter(c => c.id !== id));
+    renderCatalogRows();
+  }
+
+  function renderCatalogRows(){
+    const wrap = document.getElementById('catalogRows');
+    const list = getCatalog();
+    wrap.innerHTML = '';
+    if(list.length === 0){
+      wrap.innerHTML = '<p class="history-empty">មិនទាន់មានទំនិញនៅឡើយ — បន្ថែមខាងក្រោម។</p>';
+      return;
+    }
+    list.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'catalog-row';
+      row.innerHTML = `
+        <span style="font-size:13.5px; padding:8px 2px;">${escapeHtml(c.name)}</span>
+        <span style="font-size:13.5px; padding:8px 2px; color:var(--ink-soft);">${plainNum(c.price)}</span>
+        <button class="del-btn" title="ដកចេញពីបញ្ជី" onclick="deleteCatalogItem('${c.id}')">&times;</button>
+      `;
+      wrap.appendChild(row);
+    });
+  }
+
+  function filterCatalog(){
+    const query = document.getElementById('catalogSearch').value.trim().toLowerCase();
+    const dropdown = document.getElementById('catalogDropdown');
+    const list = getCatalog().filter(c => c.name.toLowerCase().includes(query));
+    dropdown.innerHTML = '';
+    if(list.length === 0){
+      dropdown.innerHTML = '<div class="catalog-empty-msg">រកមិនឃើញទំនិញ — សូមបន្ថែមខាងលើ។</div>';
+    } else {
+      list.forEach(c => {
+        const opt = document.createElement('div');
+        opt.className = 'catalog-option';
+        opt.innerHTML = `<span>${escapeHtml(c.name)}</span><span class="op-price">${plainNum(c.price)}</span>`;
+        opt.addEventListener('click', () => selectCatalogOption(c));
+        dropdown.appendChild(opt);
+      });
+    }
+    dropdown.classList.add('open');
+  }
+
+  function selectCatalogOption(c){
+    document.getElementById('catalogSearch').value = c.name;
+    document.getElementById('addPrice').value = c.price;
+    document.getElementById('catalogDropdown').classList.remove('open');
+  }
+
+  document.addEventListener('click', (e) => {
+    if(!e.target.closest('.search-wrap')){
+      document.getElementById('catalogDropdown').classList.remove('open');
+    }
+  });
+
+  function addSelectedToReceipt(){
+    const name = document.getElementById('catalogSearch').value.trim();
+    const qty = document.getElementById('addQty').value.trim() || '1';
+    const price = document.getElementById('addPrice').value.trim() || '0';
+    if(!name){
+      document.getElementById('catalogSearch').focus();
+      return;
+    }
+    addItem({name, qty, price});
+    document.getElementById('catalogSearch').value = '';
+    document.getElementById('addQty').value = '1';
+    document.getElementById('addPrice').value = '';
+    document.getElementById('catalogDropdown').classList.remove('open');
+  }
+
+  function getHistory(){
+    try{ return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e){ return []; }
+  }
+  function setHistory(list){ localStorage.setItem(HISTORY_KEY, JSON.stringify(list)); }
+
+  function saveReceipt(){
+    const list = getHistory();
+    const state = getCurrentState();
+    const subtotal = items.reduce((s,it)=> s + (parseFloat(it.qty)||0)*(parseFloat(it.price)||0), 0);
+    list.unshift({
+      id: 'r' + Date.now(),
+      savedAt: new Date().toISOString(),
+      total: subtotal,
+      state
+    });
+    setHistory(list);
+    renderHistory();
+    flashSaved();
+  }
+
+  function flashSaved(){
+    const btn = document.querySelector('.btn-save');
+    const original = btn.textContent;
+    btn.textContent = 'បានរក្សាទុក ✓';
+    setTimeout(() => btn.textContent = original, 1400);
+  }
+
+  function loadReceipt(id){
+    const entry = getHistory().find(r => r.id === id);
+    if(entry) applyState(entry.state);
+  }
+
+  function deleteReceipt(id){
+    setHistory(getHistory().filter(r => r.id !== id));
+    renderHistory();
+  }
+
+  function pad2(n){ return n < 10 ? '0'+n : ''+n; }
+
+  function renderHistory(){
+    const wrap = document.getElementById('historyList');
+    const list = getHistory();
+    if(list.length === 0){
+      wrap.innerHTML = '<p class="history-empty">មិនទាន់មានវិក្កយបត្រដែលបានរក្សាទុកទេ។</p>';
+      return;
+    }
+    wrap.innerHTML = '';
+    list.forEach(entry => {
+      const d = new Date(entry.savedAt);
+      const dateStr = pad2(d.getDate()) + '/' + pad2(d.getMonth()+1) + '/' + d.getFullYear() + ' · ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+      const div = document.createElement('div');
+      div.className = 'history-item';
+      div.innerHTML = `
+        <div>
+          <div>${escapeHtml(entry.state.storeName || 'វិក្កយបត្រ')} — ៛ ${plainNum(entry.total)}</div>
+          <div class="meta">${dateStr}</div>
+        </div>
+        <div class="btns">
+          <button class="load" onclick="loadReceipt('${entry.id}')">បើក</button>
+          <button class="del" onclick="deleteReceipt('${entry.id}')">លុប</button>
+        </div>
+      `;
+      wrap.appendChild(div);
+    });
+  }
+
+  function newReceipt(){
+    document.getElementById('storeName').value = 'Meta kh';
+    document.getElementById('fxRate').value = '4000';
+    document.getElementById('discountPct').value = '0';
+    document.getElementById('thanksLine1').value = 'សូមអរគុណ!';
+    document.getElementById('thanksLine2').value = 'សូមអញ្ជើញមកម្តងទៀត!';
+    items = [];
+    renderItemRows();
+    render();
+  }
+
+  function saveAsImage(){
+    const node = document.getElementById('receiptNode');
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = 'កំពុងរៀបចំ...';
+    btn.disabled = true;
+    html2canvas(node, {scale:3, backgroundColor:'#ffffff', useCORS:true}).then(canvas => {
+      const link = document.createElement('a');
+      const fileName = (document.getElementById('storeName').value.trim().replace(/\s+/g,'-') || 'receipt') + '.png';
+      link.download = fileName;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      btn.textContent = original;
+      btn.disabled = false;
+    }).catch(err => {
+      console.error(err);
+      btn.textContent = original;
+      btn.disabled = false;
+      alert('មិនអាចបង្កើតរូបភាពបានទេ សូមព្យាយាមម្តងទៀត។');
+    });
+  }
+
+  // init
+  seedCatalogIfEmpty();
+  renderCatalogRows();
+  [
+    
+  ].forEach(it => addItem(it));
+  renderHistory();
+  render();
+</script>
+
+</body>
+</html>
