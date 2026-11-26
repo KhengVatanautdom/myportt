@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kheng · Cybersecurity Specialist</title>
+  <style>
+    /* ----- RESET / BASE ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0b0e14;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1.5rem;
+    }
+
+    /* ----- HERO CONTAINER ----- */
+    .hero {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      border-radius: 3rem;
+      background: radial-gradient(circle at 20% 20%, #121826, #0a0d14);
+      box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+      isolation: isolate;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .hero:hover {
+      box-shadow: 0 40px 60px -18px rgba(0, 180, 255, 0.15), 0 0 0 1px rgba(0, 200, 255, 0.1);
+    }
+
+    /* ----- INTERACTIVE CANVAS BACKGROUND ----- */
+    #particle-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 1.5rem 2.5rem;
+      padding: 3.5rem 3rem;
+      align-items: start;
+    }
+
+    /* ----- INTRO BLOCK (left top) ----- */
+    .intro {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+
+    .hello {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 255, 200, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 0.45rem 1.1rem;
+      border-radius: 100px;
+      border: 1px solid rgba(0, 255, 200, 0.25);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: #a7f0e0;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+    }
+
+    .hello-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: #00ffc3;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #00ffc3, 0 0 20px #00ffc350;
+      animation: pulse-dot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-dot {
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(0.85);
+      }
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+      text-wrap: balance;
+    }
+
+    h1 em {
+      font-style: normal;
+      background: linear-gradient(to right, #7df9ff, #b0a8ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    h1 em:hover {
+      transform: scale(1.02);
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
+      color: #abb2c4;
+      font-weight: 350;
+      max-width: 22ch;
+      line-height: 1.5;
+      border-left: 3px solid #7df9ff40;
+      padding-left: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    /* ----- QUOTE (right top) ----- */
+    .quote {
+      grid-column: 2 / 3;
+      grid-row: 1 / 2;
+      justify-self: end;
+      align-self: start;
+      max-width: 340px;
+      background: rgba(20, 28, 40, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 2rem;
+      padding: 1.6rem 2rem;
+      color: #d0d9e8;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      box-shadow: 0 20px 30px -15px rgba(0, 0, 0, 0.5);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .quote:hover {
+      border-color: rgba(0, 255, 200, 0.3);
+      box-shadow: 0 20px 40px -12px rgba(0, 255, 200, 0.15);
+    }
+
+    .quote b {
+      display: block;
+      font-size: 4rem;
+      line-height: 1;
+      color: #7df9ff40;
+      margin-bottom: -0.4rem;
+      font-family: Georgia, serif;
+      transition: color 0.2s;
+    }
+
+    .quote:hover b {
+      color: #7df9ff90;
+    }
+
+    /* ----- STAT (left bottom) ----- */
+    .stat {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      align-self: start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 1.8rem;
+      padding: 1.2rem 1.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      width: fit-content;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .stat:hover {
+      background: rgba(0, 255, 200, 0.03);
+      transform: translateY(-2px);
+    }
+
+    .stat-stars {
+      color: #ffd966;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
+      margin-bottom: 0.25rem;
+      text-shadow: 0 0 10px #ffb34750;
+      animation: star-glow 3s infinite alternate;
+    }
+
+    @keyframes star-glow {
+      0% {
+        text-shadow: 0 0 6px #ffb34730;
+      }
+      100% {
+        text-shadow: 0 0 18px #ffd96680;
+      }
+    }
+
+    .stat strong {
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .stat span {
+      color: #8792a8;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* ----- PHOTO (right, overlapping) ----- */
+    .photo {
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+      justify-self: end;
+      align-self: center;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      z-index: 5;
+      background: #141a24;
+      margin-top: 1rem;
+    }
+
+    .photo:hover {
+      transform: scale(1.02) rotate(1deg);
+      border-color: #7df9ff;
+      box-shadow: 0 30px 50px -10px #00a6ff40, 0 0 0 2px #7df9ff40;
+    }
+
+    /* ----- CIRCLE DECOR (behind photo) ----- */
+    .circle {
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+      justify-self: end;
+      align-self: center;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #1f2b3a, #0b111a);
+      box-shadow: inset 0 0 40px #00000080, 0 0 30px #000000;
+      position: relative;
+      z-index: 1;
+      margin-top: 1rem;
+      pointer-events: none;
+      transition: box-shadow 0.4s;
+    }
+
+    .hero:hover .circle {
+      box-shadow: inset 0 0 40px #00000080, 0 0 50px #2f8fff30;
+    }
+
+    /* ----- DOODLES / SVG (floating) ----- */
+    .doodles {
+      grid-column: 1 / 3;
+      grid-row: 1 / 4;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+      opacity: 0.6;
+      filter: drop-shadow(0 0 8px #7df9ff20);
+      transition: opacity 0.3s;
+      position: relative;
+    }
+
+    .hero:hover .doodles {
+      opacity: 0.9;
+    }
+
+    .doodles g {
+      stroke: #7df9ff;
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.3s;
+    }
+
+    .doodles g:hover {
+      stroke: #b0f0ff;
+    }
+
+    /* ----- TOGGLE (bottom right) ----- */
+    .toggle {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+      justify-self: end;
+      align-self: end;
+      display: flex;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 60px;
+      padding: 0.25rem 0.25rem 0.25rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .toggle:hover {
+      border-color: #7df9ff60;
+      box-shadow: 0 0 20px #7df9ff20;
+    }
+
+    .thumb {
+      display: none; /* replaced by clean design */
+    }
+
+    .toggle a {
+      text-decoration: none;
+      color: #eef3fc;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .toggle a:first-of-type {
+      background: #7df9ff15;
+      color: #b6f0ff;
+    }
+
+    .toggle a:last-of-type {
+      background: #ffffff08;
+      color: #d6e2f0;
+    }
+
+    .toggle a:hover {
+      background: #7df9ff30;
+      color: #fff;
+      transform: scale(1.02);
+    }
+
+    .toggle a:active {
+      transform: scale(0.97);
+    }
+
+    /* subtle glow on arrow */
+    .toggle a::after {
+      content: "↗";
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-left: 0.2rem;
+      transition: transform 0.2s;
+    }
+
+    .toggle a:hover::after {
+      transform: translate(2px, -2px);
+    }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 900px) {
+      .stage {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto auto auto;
+        gap: 1.8rem;
+        padding: 2.5rem 1.8rem;
+      }
+
+      .intro {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+      }
+
+      .quote {
+        grid-column: 1 / 2;
+        grid-row: 2 / 3;
+        justify-self: start;
+        max-width: 100%;
+      }
+
+      .stat {
+        grid-column: 1 / 2;
+        grid-row: 3 / 4;
+      }
+
+      .circle,
+      .photo {
+        grid-column: 1 / 2;
+        grid-row: 4 / 5;
+        justify-self: center;
+        align-self: center;
+        margin: 0.5rem 0;
+      }
+
+      .circle {
+        width: 200px;
+        height: 200px;
+      }
+
+      .photo {
+        width: 170px;
+        height: 170px;
+      }
+
+      .toggle {
+        grid-column: 1 / 2;
+        grid-row: 5 / 6;
+        justify-self: start;
+        margin-top: 0.5rem;
+      }
+
+      .doodles {
+        grid-row: 1 / 7;
+        opacity: 0.4;
+      }
+
+      .hero {
+        border-radius: 2rem;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .stage {
+        padding: 1.8rem 1.2rem;
+      }
+
+      h1 {
+        font-size: 2.3rem;
+      }
+
+      .hero-sub {
+        font-size: 1rem;
+      }
+
+      .quote {
+        padding: 1.2rem 1.2rem;
+        font-size: 0.95rem;
+      }
+
+      .stat strong {
+        font-size: 1.8rem;
+      }
+
+      .toggle {
+        flex-wrap: wrap;
+        background: transparent;
+        backdrop-filter: none;
+        padding: 0;
+        border: none;
+        gap: 0.5rem;
+      }
+
+      .toggle a {
+        background: #1a232e;
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="home">
+    <!-- interactive particle canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="stage">
+      <!-- INTRO -->
+      <div class="intro" id="intro">
+        <span class="hello">
+          <span class="hello-dot" aria-hidden="true"></span>
+          Available for opportunities
+        </span>
+        <h1>I’m <em>Kheng</em>,<br>Cybersecurity Specialist</h1>
+        <p class="hero-sub">Defending systems. Building tools. Phnom Penh, KH.</p>
+      </div>
+
+      <!-- QUOTE -->
+      <div class="quote" aria-label="Personal statement">
+        <b aria-hidden="true">&ldquo;</b>
+        Staying calm and effective when systems are under pressure &mdash; that's the job.
+      </div>
+
+      <!-- STAT -->
+      <div class="stat">
+        <div class="stat-stars" aria-hidden="true">★★★★★</div>
+        <strong>3.8 GPA</strong>
+        <span>AUPP &middot; Cybersecurity</span>
+      </div>
+
+      <!-- CIRCLE + PHOTO -->
+      <div class="circle" aria-hidden="true"></div>
+      <img class="photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23212b38'/%3E%3Ccircle cx='50' cy='40' r='18' fill='%237df9ff' opacity='0.7'/%3E%3Ccircle cx='36' cy='36' r='5' fill='%230b0e14'/%3E%3Ccircle cx='64' cy='36' r='5' fill='%230b0e14'/%3E%3Cpath d='M32 65 Q50 80 68 65' stroke='%237df9ff' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" alt="Kheng Vatanautdom" onerror="this.style.display='none'">
+
+      <!-- DOODLES / SVG -->
+      <svg class="doodles" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g transform="translate(250 190) scale(2.2)" data-s=".18">
+          <path pathLength="1" d="M0 -24 L20 -16 V4 C20 16 8 24 0 28 C-8 24 -20 16 -20 4 V-16Z M-7 2 L-2 8 L9 -6"/>
+        </g>
+        <g transform="translate(150 380) scale(1.8)" data-s=".24">
+          <path pathLength="1" d="M-14 -2 H14 V20 H-14Z M-8 -2 V-10 A8 8 0 0 1 8 -10 V-2"/>
+        </g>
+        <g transform="translate(300 470) scale(1.6)" data-s=".3">
+          <path pathLength="1" d="M-22 -16 H22 V16 H-22Z M-14 -6 L-6 0 L-14 6 M0 6 H12"/>
+        </g>
+        <g transform="translate(400 90) scale(1.5)" data-s=".36">
+          <path pathLength="1" d="M0 12 C-30 -10 -18 -34 0 -18 C18 -34 30 -10 0 12Z"/>
+        </g>
+        <g transform="translate(740 170) scale(2)" data-s=".2">
+          <path pathLength="1" d="M-20 -4 A28 28 0 0 1 20 -4 M-12 4 A16 16 0 0 1 12 4 M-4 12 A5 5 0 0 1 4 12"/>
+        </g>
+        <g transform="translate(860 340) scale(1.8)" data-s=".26">
+          <path pathLength="1" d="M-10 -6 A10 12 0 0 1 10 -6 V8 A10 12 0 0 1 -10 8Z M-10 0 H-20 M10 0 H20 M-10 10 L-20 16 M10 10 L20 16 M-10 -8 L-18 -16 M10 -8 L18 -16"/>
+        </g>
+      </svg>
+
+      <!-- TOGGLE (clean, no thumb) -->
+      <div class="toggle" id="toggle">
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Hire me</a>
+      </div>
+    </div>
+  </header>
+
+  <script>
+    (function() {
+      // ----- INTERACTIVE PARTICLE BACKGROUND (clean, subtle, mouse-reactive) -----
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+      const PARTICLE_COUNT = 55;
+      const mouse = { x: -1000, y: -1000, radius: 140 };
+
+      function initCanvas() {
+        const container = canvas.parentElement;
+        width = container.clientWidth;
+        height = container.clientHeight;
+        canvas.width = width;
+        canvas.height = height;
+        createParticles();
+      }
+
+      function createParticles() {
+        particles = [];
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            size: Math.random() * 3 + 1.5,
+            baseSize: Math.random() * 3 + 1.5,
+            alpha: Math.random() * 0.5 + 0.2,
+          });
+        }
+      }
+
+      function drawParticles() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, width, height);
+
+        // draw connections
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 140) {
+              const alpha = (1 - dist / 140) * 0.25;
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(125, 249, 255, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // draw particles
+        for (let p of particles) {
+          // mouse repulsion
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < mouse.radius && dist > 0.1) {
+            const force = (mouse.radius - dist) / mouse.radius;
+            const angle = Math.atan2(dy, dx);
+            p.vx += Math.cos(angle) * force * 0.12;
+            p.vy += Math.sin(angle) * force * 0.12;
+          }
+
+          // move
+          p.x += p.vx;
+          p.y += p.vy;
+
+          // friction
+          p.vx *= 0.98;
+          p.vy *= 0.98;
+
+          // wrap around edges
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
+          if (p.y < -20) p.y = height + 20;
+          if (p.y > height + 20) p.y = -20;
+
+          // draw
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(125, 249, 255, ${p.alpha})`;
+          ctx.shadowColor = '#7df9ff';
+          ctx.shadowBlur = 12;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      function animate() {
+        drawParticles();
+        requestAnimationFrame(animate);
+      }
+
+      // mouse move detection relative to hero
+      const hero = document.querySelector('.hero');
+      hero.addEventListener('mousemove', (e) => {
+        const rect = hero.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+
+      hero.addEventListener('mouseleave', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+      });
+
+      // resize
+      window.addEventListener('resize', () => {
+        initCanvas();
+      });
+
+      // start
+      initCanvas();
+      animate();
+
+      // slight re-init on visibility (optional)
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          initCanvas();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

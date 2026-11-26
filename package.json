@@ -1,0 +1,14 @@
+{
+  "name": "kvsec-portfolio",
+  "version": "1.0.0",
+  "description": "Portfolio of Kheng Vatanautdom",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --watch",
+    "watch": "node build.js --watch"
+  },
+  "keywords": [],
+  "author": "Kheng Vatanautdom",
+  "license": "ISC"
+}
+

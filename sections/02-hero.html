@@ -1,0 +1,134 @@
+<header class="hero" id="home">
+  <!-- Interactive & Atmospheric Background Layers -->
+  <div class="hero-backdrop" aria-hidden="true">
+    <div class="hero-grid"></div>
+    <div class="hero-glow hero-glow-primary"></div>
+    <div class="hero-glow hero-glow-secondary"></div>
+    <div class="hero-spotlight" id="heroSpotlight"></div>
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+  </div>
+
+  <div class="stage">
+    <!-- Left Column: Editorial Introduction & CTAs -->
+    <div class="intro" id="intro">
+      <div class="hero-meta-row hero-anim" style="--delay: 0.05s">
+        <span class="hello">
+          <span class="hello-dot" aria-hidden="true"></span>
+          Open to opportunities
+        </span>
+        <span class="hero-location">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          Phnom Penh, Cambodia
+        </span>
+      </div>
+
+      <h1 class="hero-anim" style="--delay: 0.14s">
+        <span class="hero-name">Kheng <em>Vatanautdom</em></span>
+        <span class="hero-role">Technology &amp; Digital Solutions Professional</span>
+      </h1>
+
+      <p class="hero-sub hero-anim" style="--delay: 0.23s">
+        I build digital solutions, develop web applications, and support technology-driven operations. My experience spans software development, IT operations, digital marketing, and project collaboration, with a focus on turning ideas into practical solutions.
+      </p>
+
+      <div class="hero-actions hero-anim" id="toggle" style="--delay: 0.32s">
+        <a href="#portfolio" class="hero-btn hero-btn-primary">
+          <span>Explore My Work</span>
+          <svg class="hero-btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/>
+            <path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#contact" class="hero-btn hero-btn-secondary">
+          <span>Contact Me</span>
+          <svg class="hero-btn-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+      </div>
+
+      <ul class="hero-telemetry hero-anim" style="--delay: 0.40s" aria-label="Core focus areas">
+        <li>
+          <span class="telemetry-dot" aria-hidden="true"></span>
+          Software Development
+        </li>
+        <li>
+          <span class="telemetry-dot" aria-hidden="true"></span>
+          IT Operations
+        </li>
+        <li>
+          <span class="telemetry-dot" aria-hidden="true"></span>
+          Digital Innovation
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right Column: Profile Visual & Balanced Floating Cards -->
+    <div class="hero-visual hero-anim" style="--delay: 0.20s">
+      <div class="profile-stage" id="profileStage">
+        <!-- Main Architectural Portrait Frame -->
+        <div class="profile-frame">
+          <div class="profile-frame-bar" aria-hidden="true">
+            <div class="frame-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="frame-id">SYS.ID // KVSEC-01</div>
+            <div class="frame-status">
+              <span class="frame-status-dot"></span>
+              SEC-ACTIVE
+            </div>
+          </div>
+
+          <div class="profile-canvas-area">
+            <div class="circle" aria-hidden="true"></div>
+
+            <!-- Restrained Technical Shield & Radar Schematic -->
+            <svg class="hero-schematic" viewBox="0 0 400 440" fill="none" aria-hidden="true">
+              <circle cx="200" cy="210" r="155" stroke="currentColor" stroke-opacity="0.12" stroke-width="1" stroke-dasharray="4 6"/>
+              <circle cx="200" cy="210" r="115" stroke="currentColor" stroke-opacity="0.16" stroke-width="1"/>
+              <circle cx="200" cy="210" r="75" stroke="currentColor" stroke-opacity="0.1" stroke-width="1" stroke-dasharray="2 4"/>
+              <line x1="200" y1="30" x2="200" y2="70" stroke="currentColor" stroke-opacity="0.2" stroke-width="1"/>
+              <line x1="200" y1="350" x2="200" y2="390" stroke="currentColor" stroke-opacity="0.2" stroke-width="1"/>
+              <line x1="25" y1="210" x2="65" y2="210" stroke="currentColor" stroke-opacity="0.2" stroke-width="1"/>
+              <line x1="335" y1="210" x2="375" y2="210" stroke="currentColor" stroke-opacity="0.2" stroke-width="1"/>
+              <path d="M200 72 L296 112 V202 C296 274 252 322 200 346 C148 322 104 274 104 202 V112 L200 72Z" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.2"/>
+              <!-- Corner Technical Crosshairs -->
+              <path d="M24 38 V24 H38" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.5"/>
+              <path d="M376 38 V24 H362" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.5"/>
+            </svg>
+
+            <img class="photo" src="profile.jpg" alt="Kheng Vatanautdom — Technology and Digital Solutions Professional" width="747" height="780" fetchpriority="high" onerror="this.style.display='none'">
+
+            <div class="profile-vignette" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Floating Card 1: Understated Academic Record -->
+        <div class="stat hero-float-card" aria-label="Academic achievement: 3.8 GPA at AUPP in Cybersecurity">
+          <div class="stat-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div class="stat-content">
+            <span class="stat-eyebrow">Academic Record</span>
+            <strong>3.8 GPA</strong>
+            <span class="stat-meta">AUPP &middot; Cybersecurity</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <a href="#about" class="hero-scroll" aria-label="Scroll to About section">
+    <span class="hero-scroll-label">Scroll</span>
+    <span class="hero-scroll-line" aria-hidden="true"></span>
+  </a>
+</header>
